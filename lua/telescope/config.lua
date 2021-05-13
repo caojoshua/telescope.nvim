@@ -113,6 +113,10 @@ function config.set_defaults(defaults)
   set("border", {})
   set("borderchars", { '─', '│', '─', '│', '╭', '╮', '╯', '╰'})
 
+  set("hide_filename", false)
+  set("shorten_path", false)
+  set("tail_path", false)
+
   set("get_status_text", function(self)
     local xx = (self.stats.processed or 0) - (self.stats.filtered or 0)
     local yy = self.stats.processed or 0

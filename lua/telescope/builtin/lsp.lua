@@ -14,8 +14,6 @@ local conf = require('telescope.config').values
 local lsp = {}
 
 lsp.references = function(opts)
-  opts.shorten_path = utils.get_default(opts.shorten_path, true)
-
   local params = vim.lsp.util.make_position_params()
   params.context = { includeDeclaration = true }
 
@@ -243,8 +241,6 @@ lsp.range_code_actions = function(opts)
 end
 
 lsp.workspace_symbols = function(opts)
-  opts.shorten_path = utils.get_default(opts.shorten_path, true)
-
   local params = {query = opts.query or ''}
   local results_lsp, err = vim.lsp.buf_request_sync(0, "workspace/symbol", params, opts.timeout or 10000)
   if err then

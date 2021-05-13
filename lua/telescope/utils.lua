@@ -147,6 +147,29 @@ utils.path_tail = (function()
   end
 end)()
 
+utils.transform_filepath = function(opts, path)
+  local config = require('telescope.config').values
+
+  if path == nil or utils.get_default(opts.hide_filename, config.hide_filename) then
+    return ''
+  end
+
+  local transformed_path = path
+
+  if utils.get_default(opts.tail_path, config.tail_path) then
+    transformed_path = utils.path_tail(transformed_path)
+  else
+    local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
+    transformed_path = pathlib.make_relative(transformed_path, cwd)
+
+    if utils.get_default(opts.shorten_path, config.shorten_path) then
+      transformed_path = pathlib.shorten(transformed_path)
+    end
+  end
+
+  return transformed_path
+end
+
 -- local x = utils.make_default_callable(function(opts)
 --   return function()
 --     print(opts.example, opts.another)
