@@ -2,6 +2,7 @@ local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
 
 local pathlib = require('telescope.path')
 local Job     = require('plenary.job')
+local types   = require('telescope.types')
 
 local utils = {}
 
@@ -149,20 +150,21 @@ end)()
 
 utils.transform_filepath = function(opts, path)
   local config = require('telescope.config').values
+  local types = types.path_display_options
 
-  if path == nil or utils.get_default(opts.hide_filename, config.hide_filename) then
+  if path == nil or utils.get_default(opts[types.HIDE_PATH], config[types.HIDE_PATH]) then
     return ''
   end
 
   local transformed_path = path
 
-  if utils.get_default(opts.tail_path, config.tail_path) then
+  if utils.get_default(opts[types.TAIL_PATH], config[types.TAIL_PATH]) then
     transformed_path = utils.path_tail(transformed_path)
   else
     local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
     transformed_path = pathlib.make_relative(transformed_path, cwd)
 
-    if utils.get_default(opts.shorten_path, config.shorten_path) then
+    if utils.get_default(opts[types.SHORTEN_PATH], config[types.SHORTEN_PATH]) then
       transformed_path = pathlib.shorten(transformed_path)
     end
   end

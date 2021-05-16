@@ -1,3 +1,5 @@
+local types = require('telescope.types')
+
 -- Keep the values around between reloads
 _TelescopeConfigurationValues = _TelescopeConfigurationValues or {}
 
@@ -113,9 +115,9 @@ function config.set_defaults(defaults)
   set("border", {})
   set("borderchars", { '─', '│', '─', '│', '╭', '╮', '╯', '╰'})
 
-  set("hide_filename", false)
-  set("shorten_path", false)
-  set("tail_path", false)
+  set(types.path_display_options.HIDE_PATH, false)
+  set(types.path_display_options.SHORTEN_PATH, false)
+  set(types.path_display_options.TAIL_PATH, false)
 
   set("get_status_text", function(self)
     local xx = (self.stats.processed or 0) - (self.stats.filtered or 0)
