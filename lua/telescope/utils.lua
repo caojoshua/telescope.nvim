@@ -148,6 +148,57 @@ utils.path_tail = (function()
   end
 end)()
 
+utils.slice = function(tbl, s, e)
+  local pos, new = 1, {}
+
+  for i = s, e do
+    new[pos] = tbl[i]
+    pos = pos + 1
+  end
+
+  return new
+end
+
+
+
+PATHS = {}
+utils.path_smart = function(initial_path)
+  local final = initial_path
+  if (table.getn(PATHS) ~= 0) then
+    local diff_counts = { 1, }
+    local dirs = vim.split(initial_path, "/")
+    for _, path in pairs(PATHS) do
+      local _dirs = vim.split(path, "/")
+      local l = table.getn(_dirs)
+      local differs = 0
+      for i = 0, l do
+        if (dirs[i] ~= _dirs[i]) then
+          differs = i
+          break
+        end
+      end
+      table.insert(diff_counts, differs)
+    end
+    local max = math.max(unpack(diff_counts))
+    local length = table.getn(dirs)
+    local final_table = utils.slice(dirs, max, length)
+    if (max == length) then
+      final_table = utils.slice(dirs, length - 1, length)
+    end
+    final = table.concat(final_table, "/")
+  else
+    local length = string.len(final)
+    final = utils.slice(initial_path, length - 1, length)
+    final = table.concat(final, "/")
+  end
+  table.insert(PATHS, initial_path)
+  if (final == initial_path) then
+    return final
+  else
+    return "../" .. final
+  end
+end
+
 utils.transform_filepath = function(opts, path)
   local config = require('telescope.config').values
   local types = types.path_display_options
@@ -160,6 +211,8 @@ utils.transform_filepath = function(opts, path)
 
   if utils.get_default(opts[types.TAIL_PATH], config[types.TAIL_PATH]) then
     transformed_path = utils.path_tail(transformed_path)
+  elseif utils.get_default(opts[types.SMART_PATH], config[types.SMART_PATH]) then
+    transformed_path = utils.path_smart(transformed_path)
   else
     local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
     transformed_path = pathlib.make_relative(transformed_path, cwd)

@@ -118,6 +118,7 @@ function config.set_defaults(defaults)
   set(types.path_display_options.HIDE_PATH, false)
   set(types.path_display_options.SHORTEN_PATH, false)
   set(types.path_display_options.TAIL_PATH, false)
+  set(types.path_display_options.SMART_PATH, false)
 
   set("get_status_text", function(self)
     local xx = (self.stats.processed or 0) - (self.stats.filtered or 0)
