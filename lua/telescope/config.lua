@@ -766,6 +766,16 @@ append(
     Default: require("telescope.previewers").buffer_previewer_maker]]
 )
 
+append(
+  "push_cursor_on_edit",
+  false,
+  [[
+  Push the position of the cursor before starting the Telescope picker
+  onto the jumplist when choosing an edit action.
+
+  Default: false]]
+)
+
 -- @param user_defaults table: a table where keys are the names of options,
 --    and values are the ones the user wants
 -- @param tele_defaults table: (optional) a table containing all of the defaults

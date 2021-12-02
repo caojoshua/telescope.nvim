@@ -101,6 +101,8 @@ function Picker:new(opts)
     sorting_strategy = get_default(opts.sorting_strategy, config.values.sorting_strategy),
     selection_strategy = get_default(opts.selection_strategy, config.values.selection_strategy),
 
+    push_cursor_on_edit = get_default(opts.push_cursor_on_edit, config.values.push_cursor_on_edit),
+
     layout_strategy = layout_strategy,
     layout_config = config.smarter_depth_2_extend(opts.layout_config or {}, config.values.layout_config or {}),
 
