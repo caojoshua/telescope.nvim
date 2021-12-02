@@ -594,6 +594,13 @@ telescope.setup({opts})                                    *telescope.setup()*
 
         Default: require("telescope.previewers").buffer_previewer_maker
 
+                                   *telescope.defaults.push_cursor_on_edit*
+    push_cursor_on_edit: ~
+        Push the position of the cursor before starting the Telescope picker
+        onto the jumplist when choosing an edit action.
+
+        Default: false
+
     Parameters: ~
         {opts} (table)  Configuration opts. Keys: defaults, pickers,
                         extensions
